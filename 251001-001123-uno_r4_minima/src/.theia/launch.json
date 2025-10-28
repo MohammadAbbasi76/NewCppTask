@@ -1,0 +1,63 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "configId": "arduino:renesas_uno:minima:programmer=jlink",
+      "cwd": "${workspaceRoot}",
+      "request": "attach",
+      "type": "cortex-debug",
+      "executable": "C:\\Users\\User\\AppData\\Local\\arduino\\sketches\\68B4309F2655D2CA86AC3AB92959828C/sketch_ControllerTest.ino.elf",
+      "toolchainPrefix": "arm-none-eabi",
+      "svdFile": "C:\\Users\\User\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.4.1/svd/R7FA4M1AB.svd",
+      "overrideRestartCommands": [
+        "monitor reset halt 1",
+        "monitor gdb_sync",
+        "c"
+      ],
+      "postAttachCommands": [
+        "monitor reset halt 1",
+        "monitor gdb_breakpoint_override hard",
+        "monitor gdb_sync",
+        "c"
+      ],
+      "name": "Arduino UNO R4 Minima (jlink)",
+      "serverpath": "C:\\Users\\User\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\openocd\\0.11.0-arduino2/bin/openocd",
+      "servertype": "openocd",
+      "armToolchainPath": "C:\\Users\\User\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\arm-none-eabi-gcc\\7-2017q4/bin/",
+      "configFiles": [
+        "interface/jlink.cfg",
+        "C:\\Users\\User\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.4.1/debugger/select_swd.cfg",
+        "C:\\Users\\User\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.4.1/debugger/R7FA4M1AB.cfg"
+      ]
+    },
+    {
+      "configId": "arduino:renesas_uno:minima",
+      "cwd": "${workspaceRoot}",
+      "request": "attach",
+      "type": "cortex-debug",
+      "executable": "C:\\Users\\User\\AppData\\Local\\arduino\\sketches\\68B4309F2655D2CA86AC3AB92959828C/sketch_ControllerTest.ino.elf",
+      "toolchainPrefix": "arm-none-eabi",
+      "svdFile": "C:\\Users\\User\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.4.1/svd/R7FA4M1AB.svd",
+      "overrideRestartCommands": [
+        "monitor reset halt 1",
+        "monitor gdb_sync",
+        "c"
+      ],
+      "postAttachCommands": [
+        "monitor reset halt 1",
+        "monitor gdb_breakpoint_override hard",
+        "monitor gdb_sync",
+        "c"
+      ],
+      "name": "Arduino UNO R4 Minima",
+      "serverpath": "C:\\Users\\User\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\openocd\\0.11.0-arduino2/bin/openocd",
+      "servertype": "openocd",
+      "armToolchainPath": "C:\\Users\\User\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\arm-none-eabi-gcc\\7-2017q4/bin/",
+      "configFiles": [
+        "interface/{programmer.protocol}.cfg",
+        "{programmer.transport_script}",
+        "C:\\Users\\User\\AppData\\Local\\Arduino15\\packages\\arduino\\hardware\\renesas_uno\\1.4.1/debugger/R7FA4M1AB.cfg"
+      ]
+    }
+  ]
+}

@@ -11,7 +11,4 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 # include(Common)
 
-add_subdirectory(App
-                 Lib)
-
-include(Doxygen)
+add_subdirectory(App)

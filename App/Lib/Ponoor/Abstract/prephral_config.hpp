@@ -1,6 +1,7 @@
+#pragma once
 #include "prephral_asbtract.hpp"
 
-// User must implement these concrete classes for their specific MCU
+
 
 class ConcreteGPIO : public GPIO_Abstract {
 public:
@@ -24,41 +25,7 @@ public:
     }
 };
 
-class ConcretePWM : public PWM_Abstract {
-public:
-    void pwmInit(uint8_t pin, uint32_t frequency = 1000) override {
-        // User implements MCU-specific PWM initialization
-        // Example for Arduino:
-        // ::pinMode(pin, OUTPUT);
-        // ::analogWriteFrequency(pin, frequency); // Some Arduino variants
-    }
-    
-    void setPWM(uint8_t pin, uint8_t value) override {
-        // User implements MCU-specific PWM set (0-255)
-        // Example for Arduino:
-        // ::analogWrite(pin, value);
-    }
-    
-    void setPWMPercent(uint8_t pin, float percent) override {
-        // Convert percentage to 0-255 range
-        uint8_t value = static_cast<uint8_t>((percent / 100.0f) * 255);
-        setPWM(pin, value);
-    }
-    
-    void setPWMRaw(uint8_t pin, uint16_t value) override {
-        // User implements MCU-specific raw PWM set
-        // This might be platform-specific
-        setPWM(pin, static_cast<uint8_t>(value & 0xFF));
-    }
-    
-    void setPWMFrequency(uint8_t pin, uint32_t frequency) override {
-        // User implements MCU-specific frequency setting
-    }
-    
-    void setPWMResolution(uint8_t pin, uint8_t resolution) override {
-        // User implements MCU-specific resolution setting
-    }
-};
+
 
 class ConcreteSPI : public SPI_Abstract {
 private:
@@ -102,10 +69,10 @@ public:
         return 0; // placeholder
     }
     
-    void transfer(uint8_t* txData, uint8_t* rxData, size_t length) override {
+    void transfer(uint8_t* txData, uint8_t* rxData, uint32_t length) override {
         // User implements MCU-specific bulk SPI transfer
         // Example for Arduino:
-        // for(size_t i = 0; i < length; i++) {
+        // for(uint32_t i = 0; i < length; i++) {
         //     rxData[i] = ::SPI.transfer(txData[i]);
         // }
     }
@@ -124,34 +91,26 @@ public:
     }
 };
 
-class ConcreteMCU : public MCU_Abstract {
-private:
-    ConcreteGPIO gpio;
-    ConcretePWM pwm;
-    ConcreteSPI spi;
-    
+
+class ConcreteTiming : public Timing_Abstract {
 public:
-    GPIO_Abstract* getGPIO() override { return &gpio; }
-    PWM_Abstract* getPWM() override { return &pwm; }
-    SPI_Abstract* getSPI() override { return &spi; }
-    
     void delay(uint32_t milliseconds) override {
-        // User implements MCU-specific delay
-        // Example for Arduino:
-        // ::delay(milliseconds);
+        // MCU-specific delay
+        // Example for Arduino: ::delay(milliseconds);
     }
-    
+
+    void delayMicroseconds(uint32_t microseconds) override {
+        // MCU-specific microsecond delay
+        // Example for Arduino: ::delayMicroseconds(microseconds);
+    }
+
     uint32_t millis() override {
-        // User implements MCU-specific millis
-        // Example for Arduino:
-        // return ::millis();
-        return 0; // placeholder
+        // Example for Arduino: return ::millis();
+        return 0;
     }
-    
+
     uint32_t micros() override {
-        // User implements MCU-specific micros
-        // Example for Arduino:
-        // return ::micros();
-        return 0; // placeholder
+        // Example for Arduino: return ::micros();
+        return 0;
     }
 };

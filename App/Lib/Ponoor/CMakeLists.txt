@@ -5,27 +5,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 add_library(${PROJECT_NAME}
-    # PiFracMotor.cpp
-    # PiFracMotor.h
-    # Ponoor_L6470Commands.cpp
-    # Ponoor_L6470Config.cpp
-    # Ponoor_L6470Constants.h
-    # Ponoor_L6470Library.cpp
-    # Ponoor_L6470Library.h
-    # Ponoor_L6470Support.cpp
-    test.cpp
+    PiFracMotor.cpp
+    PiFracMotor.h
+    Ponoor_L6470Commands.cpp
+    Ponoor_L6470Config.cpp
+    Ponoor_L6470Constants.h
+    Ponoor_L6470Library.cpp
+    Ponoor_L6470Library.h
+    Ponoor_L6470Support.cpp
 )
 
 # Include directories - include both current and project include dirs
 target_include_directories(${PROJECT_NAME}
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/../Abstract
+        ${CMAKE_CURRENT_SOURCE_DIR}/Abstract
 )
 
-target_link_libraries(${PROJECT_NAME}
-    PUBLIC
-    AbstractLayer
-)
+
 
 message(STATUS "Ponoor Library")

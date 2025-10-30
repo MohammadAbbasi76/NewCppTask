@@ -1,5 +1,5 @@
 #include "PiFracMotor.h"
-#include"prephral_config.hpp"
+#include "Abstract/prephral_config.hpp"
 #define nBUSY        A5    // motor controller BUSY="0"
 #define nFLAG        A4    // motor issue if "0"
 #define nSTBY         5    // put motor in standby (reset)="0"

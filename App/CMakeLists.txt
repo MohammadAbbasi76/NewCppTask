@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(Lib/Ponoor)
+add_subdirectory(Abstract)
 
 # Add source files
 add_executable(${PROJECT_NAME} 
@@ -18,6 +19,7 @@ add_executable(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
     PUBLIC
     PonoorLib
+    AbstractLayer
 )
 
 # Include directories
@@ -26,4 +28,4 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 )
 
 
-message(STATUS "App Layer(this is abstract)")
+message(STATUS "App Layer")

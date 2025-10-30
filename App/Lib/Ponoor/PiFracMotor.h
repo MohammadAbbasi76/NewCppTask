@@ -16,7 +16,7 @@ class PiFracMotor : AutoDriver
 
     int csPin; // chip select pin
     static bool isBusy(int csPin); // check to see if a particular motor is busy or not
-    static void moveMotor(int csPin, byte dir, unsigned long numSteps); // move a motor
+    static void moveMotor(int csPin, uint8_t dir, unsigned int32_t numSteps); // move a motor
     static void configureDefault(int csPin); // configure the motor driver
     static void configureSpeed(int csPin, float maxSpeed, float fullSpeed); // configure maximum and full (steady state) speed of the motor
     static void configureAcc(int csPin, float acc, float dec); // configure the acceleration and decceleration of the motor

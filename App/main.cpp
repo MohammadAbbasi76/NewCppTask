@@ -1,28 +1,10 @@
-// #include <string>
-// #include <stdio.h>
-// #include "test.h"
-
-
-// int main()
-// {
-//     testClass print;
-//     print.test();
-//    return 0;
-// }
-
-
-
-#include <Arduino.h>
-#include <pwm.h>
-#include <Wire.h>
-#include <SPI.h>
-#include <DAC.h>
+#include"prephral_config.hpp"
 #include "PiFracMotor.h"
 
 class PinManager {
 private:
     struct SpecialPinConfig {
-        unsigned long baseAddress;
+        unsigned int32_t baseAddress;
         int baseIndex;
     };
 

@@ -50,7 +50,7 @@ void frontPanelLED(bool on)
 
 void specialPinMode(int pinIndex, PinMode pm,  PinStatus ps)
 {
-   unsigned long baseAddress = 0x40040800;
+   unsigned int32_t baseAddress = 0x40040800;
    int baseIndex = 0;
    if (pinIndex >= 10 && pinIndex <= 15)
    {

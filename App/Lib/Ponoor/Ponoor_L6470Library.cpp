@@ -1,4 +1,4 @@
-#include <SPI.h>
+#include "prephral_config.hpp"
 #include "Ponoor_L6470Library.h"
 
 int AutoDriver::_numBoards;

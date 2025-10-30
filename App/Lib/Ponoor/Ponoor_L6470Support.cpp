@@ -1,6 +1,5 @@
 #include "Ponoor_L6470Library.h"
-#include <SPI.h>
-
+#include"prephral_config.hpp"
 // AutoDriverSupport.cpp - Contains utility functions for converting real-world 
 //  units (eg, steps/s) to values usable by the dsPIN controller. These are all
 //  private members of class AutoDriver.
@@ -9,29 +8,29 @@
 //  250ns (datasheet value)- 0x08A on boot.
 // Multiply desired steps/s/s by .137438 to get an appropriate value for this register.
 // This is a 12-bit value, so we need to make sure the value is at or below 0xFFF.
-unsigned long AutoDriver::accCalc(float stepsPerSecPerSec)
+unsigned int32_t AutoDriver::accCalc(float stepsPerSecPerSec)
 {
   float temp = stepsPerSecPerSec * 0.06871948F;
-  if( (unsigned long) long(temp) >= 0x00000FFF) return 0x00000FFE;
-  else return (unsigned long) long(temp);
+  if( (unsigned int32_t) int32_t(temp) >= 0x00000FFF) return 0x00000FFE;
+  else return (unsigned int32_t) int32_t(temp);
 }
 
 
-float AutoDriver::accParse(unsigned long stepsPerSecPerSec)
+float AutoDriver::accParse(unsigned int32_t stepsPerSecPerSec)
 {
     return (float)(stepsPerSecPerSec & 0x00000FFF) * 15.258789F;
 }
 
 // The calculation for DEC is the same as for ACC. Value is 0x08A on boot.
 // This is a 12-bit value, so we need to make sure the value is at or below 0xFFF.
-unsigned long AutoDriver::decCalc(float stepsPerSecPerSec)
+unsigned int32_t AutoDriver::decCalc(float stepsPerSecPerSec)
 {
   float temp = stepsPerSecPerSec * 0.06871948F;
-  if( (unsigned long) long(temp) > 0x00000FFF) return 0x00000FFF;
-  else return (unsigned long) long(temp);
+  if( (unsigned int32_t) int32_t(temp) > 0x00000FFF) return 0x00000FFF;
+  else return (unsigned int32_t) int32_t(temp);
 }
 
-float AutoDriver::decParse(unsigned long stepsPerSecPerSec)
+float AutoDriver::decParse(unsigned int32_t stepsPerSecPerSec)
 {
     return (float)(stepsPerSecPerSec & 0x00000FFF) * 15.258789F;
 }
@@ -40,15 +39,15 @@ float AutoDriver::decParse(unsigned long stepsPerSecPerSec)
 //  250ns (datasheet value)- 0x041 on boot.
 // Multiply desired steps/s by .065536 to get an appropriate value for this register
 // This is a 10-bit value, so we need to make sure it remains at or below 0x3FF
-unsigned long AutoDriver::maxSpdCalc(float stepsPerSec)
+unsigned int32_t AutoDriver::maxSpdCalc(float stepsPerSec)
 {
-  unsigned long temp = ceil(stepsPerSec * 0.065536F);
+  unsigned int32_t temp = ceil(stepsPerSec * 0.065536F);
   if( temp > 0x000003FF) return 0x000003FF;
   else return temp;
 }
 
 
-float AutoDriver::maxSpdParse(unsigned long stepsPerSec)
+float AutoDriver::maxSpdParse(unsigned int32_t stepsPerSec)
 {
     return (float)(stepsPerSec & 0x000003FF) * 15.258789F;
 }
@@ -57,14 +56,14 @@ float AutoDriver::maxSpdParse(unsigned long stepsPerSec)
 //  250ns (datasheet value)- 0x000 on boot.
 // Multiply desired steps/s by 4.1943 to get an appropriate value for this register
 // This is a 12-bit value, so we need to make sure the value is at or below 0xFFF.
-unsigned long AutoDriver::minSpdCalc(float stepsPerSec)
+unsigned int32_t AutoDriver::minSpdCalc(float stepsPerSec)
 {
   float temp = stepsPerSec * 4.194304F;
-  if( (unsigned long) long(temp) > 0x00000FFF) return 0x00000FFF;
-  else return (unsigned long) long(temp);
+  if( (unsigned int32_t) int32_t(temp) > 0x00000FFF) return 0x00000FFF;
+  else return (unsigned int32_t) int32_t(temp);
 }
 
-float AutoDriver::minSpdParse(unsigned long stepsPerSec)
+float AutoDriver::minSpdParse(unsigned int32_t stepsPerSec)
 {
     return (float) ((float)(stepsPerSec & 0x00000FFF) * 0.23841858F);
 }
@@ -73,14 +72,14 @@ float AutoDriver::minSpdParse(unsigned long stepsPerSec)
 //  250ns (datasheet value)- 0x027 on boot.
 // Multiply desired steps/s by .065536 and subtract .5 to get an appropriate value for this register
 // This is a 10-bit value, so we need to make sure the value is at or below 0x3FF.
-unsigned long AutoDriver::FSCalc(float stepsPerSec)
+unsigned int32_t AutoDriver::FSCalc(float stepsPerSec)
 {
   float temp = (stepsPerSec * 0.065536F)-0.5F;
-  if( (unsigned long) long(temp) > 0x000003FF) return 0x000003FF;
-  else return (unsigned long) long(temp);
+  if( (unsigned int32_t) int32_t(temp) > 0x000003FF) return 0x000003FF;
+  else return (unsigned int32_t) int32_t(temp);
 }
 
-float AutoDriver::FSParse(unsigned long stepsPerSec)
+float AutoDriver::FSParse(unsigned int32_t stepsPerSec)
 {
     return (((float)(stepsPerSec & 0x000003FF)) + 0.5F) * 15.258789F;
 }
@@ -89,14 +88,14 @@ float AutoDriver::FSParse(unsigned long stepsPerSec)
 //  250ns (datasheet value)- 0x408 on boot.
 // Multiply desired steps/s by 4.1943 to get an appropriate value for this register
 // This is a 14-bit value, so we need to make sure the value is at or below 0x3FFF.
-unsigned long AutoDriver::intSpdCalc(float stepsPerSec)
+unsigned int32_t AutoDriver::intSpdCalc(float stepsPerSec)
 {
   float temp = stepsPerSec * 16.777216F;
-  if( (unsigned long) long(temp) > 0x00003FFF) return 0x00003FFF;
-  else return (unsigned long) long(temp);
+  if( (unsigned int32_t) int32_t(temp) > 0x00003FFF) return 0x00003FFF;
+  else return (unsigned int32_t) int32_t(temp);
 }
 
-float AutoDriver::intSpdParse(unsigned long stepsPerSec)
+float AutoDriver::intSpdParse(unsigned int32_t stepsPerSec)
 {
     return (float)(stepsPerSec & 0x00003FFF) * 0.059604645F;
 }
@@ -105,14 +104,14 @@ float AutoDriver::intSpdParse(unsigned long stepsPerSec)
 //  250ns (datasheet value).
 // Multiply desired steps/s by 67.106 to get an appropriate value for this register
 // This is a 20-bit value, so we need to make sure the value is at or below 0xFFFFF.
-unsigned long AutoDriver::spdCalc(float stepsPerSec)
+unsigned int32_t AutoDriver::spdCalc(float stepsPerSec)
 {
-  unsigned long temp = stepsPerSec * 67.108864F;
+  unsigned int32_t temp = stepsPerSec * 67.108864F;
   if( temp > 0x000FFFFF) return 0x000FFFFF;
   else return temp;
 }
 
-float AutoDriver::spdParse(unsigned long stepsPerSec)
+float AutoDriver::spdParse(unsigned int32_t stepsPerSec)
 {
     return (float)(stepsPerSec & 0x000FFFFF) * 0.014901161F;
 }
@@ -120,15 +119,15 @@ float AutoDriver::spdParse(unsigned long stepsPerSec)
 // Much of the functionality between "get parameter" and "set parameter" is
 //  very similar, so we deal with that by putting all of it in one function
 //  here to save memory space and simplify the program.
-long AutoDriver::paramHandler(byte param, unsigned long value)
+int32_t AutoDriver::paramHandler(uint8_t param, unsigned int32_t value)
 {
-  long retVal = 0;   // This is a temp for the value to return.
+  int32_t retVal = 0;   // This is a temp for the value to return.
   
   // This switch structure handles the appropriate action for each register.
   //  This is necessary since not all registers are of the same length, either
-  //  bit-wise or byte-wise, so we want to make sure we mask out any spurious
+  //  bit-wise or uint8_t-wise, so we want to make sure we mask out any spurious
   //  bits and do the right number of transfers. That is handled by the xferParam()
-  //  function, in most cases, but for 1-byte or smaller transfers, we call
+  //  function, in most cases, but for 1-uint8_t or smaller transfers, we call
   //  SPIXfer() directly.
   switch (param)
   {
@@ -280,7 +279,7 @@ long AutoDriver::paramHandler(byte param, unsigned long value)
       retVal = xferParam(0, 16);;
       break;
     default:
-      SPIXfer((byte)value);
+      SPIXfer((uint8_t)value);
       break;
   }
   return retVal;
@@ -289,33 +288,33 @@ long AutoDriver::paramHandler(byte param, unsigned long value)
 // Generalization of the subsections of the register read/write functionality.
 //  We want the end user to just write the value without worrying about length,
 //  so we pass a bit length parameter from the calling function.
-long AutoDriver::xferParam(unsigned long value, byte bitLen)
+int32_t AutoDriver::xferParam(unsigned int32_t value, uint8_t bitLen)
 {
-  byte byteLen = bitLen/8;      // How many BYTES do we have?
-  if (bitLen%8 > 0) byteLen++;  // Make sure not to lose any partial byte values.
+  uint8_t byteLen = bitLen/8;      // How many BYTES do we have?
+  if (bitLen%8 > 0) byteLen++;  // Make sure not to lose any partial uint8_t values.
   
-  byte temp;
+  uint8_t temp;
 
-  unsigned long retVal = 0; 
+  unsigned int32_t retVal = 0; 
 #if defined(ARDUINO_ARCH_SAMD)
   __disable_irq();
 #endif
   for (int i = 0; i < byteLen; i++)
   {
     retVal = retVal << 8;
-    temp = SPIXfer((byte)(value>>((byteLen-i-1)*8)));
+    temp = SPIXfer((uint8_t)(value>>((byteLen-i-1)*8)));
     retVal |= temp;
   }
 #if defined(ARDUINO_ARCH_SAMD)
   __enable_irq();
 #endif
-  unsigned long mask = 0xffffffff >> (32-bitLen);
+  unsigned int32_t mask = 0xffffffff >> (32-bitLen);
   return retVal & mask;
 }
 
-byte AutoDriver::SPIXfer(byte data)
+uint8_t AutoDriver::SPIXfer(uint8_t data)
 {
-  // byte dataPacket[_numBoards];
+  // uint8_t dataPacket[_numBoards];
   // int i;
   // for (i=0; i < _numBoards; i++)
   {

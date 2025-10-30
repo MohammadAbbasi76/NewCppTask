@@ -1,9 +1,5 @@
 #include "PiFracMotor.h"
-#include <Arduino.h>
-#include <pwm.h>
-#include <Wire.h>
-#include <SPI.h>
-
+#include"prephral_config.hpp"
 #define nBUSY        A5    // motor controller BUSY="0"
 #define nFLAG        A4    // motor issue if "0"
 #define nSTBY         5    // put motor in standby (reset)="0"
@@ -50,7 +46,7 @@ bool PiFracMotor::isBusy(int csPin)
 /// motor controller chip. Set to low in order to enable the motor controller chip.</param>
 /// <param name="dir"></param>
 /// <param name="numSteps"></param>
-void PiFracMotor::moveMotor(int csPin, byte dir, unsigned long numSteps)
+void PiFracMotor::moveMotor(int csPin, uint8_t dir, unsigned int32_t numSteps)
 {
 	Initialize(csPin);
 	motorDriver->move(dir, numSteps);

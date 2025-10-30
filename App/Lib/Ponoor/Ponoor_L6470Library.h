@@ -1,8 +1,7 @@
 #ifndef AutoDriver_h
 #define AutoDriver_h
 
-#include "Arduino.h"
-#include <SPI.h>
+#include"prephral_config.hpp"
 #include "Ponoor_L6470Constants.h"
 
 class AutoDriver
@@ -25,51 +24,51 @@ class AutoDriver
     // Some users will want to do things other than what we explicitly provide
     //  nice functions for; give them unrestricted access to the parameter
     //  registers.
-    void setParam(byte param, unsigned long value);
-    long getParam(byte param);
+    void setParam(uint8_t param, unsigned int32_t value);
+    int32_t getParam(uint8_t param);
     
     // Lots of people just want Commands That Work; let's provide them!
     // Start with some configuration commands
-    void setLoSpdOpt(boolean enable);
-    void configSyncPin(byte pinFunc, byte syncSteps);
-    void configStepMode(byte stepMode);
+    void setLoSpdOpt(bool enable);
+    void configSyncPin(uint8_t pinFunc, uint8_t syncSteps);
+    void configStepMode(uint8_t stepMode);
     void setMaxSpeed(float stepsPerSecond);
     void setMinSpeed(float stepsPerSecond);
     void setFullSpeed(float stepsPerSecond);
     void setAcc(float stepsPerSecondPerSecond);
     void setDec(float stepsPerSecondPerSecond);
-    void setMaxSpeedRaw(unsigned long integerSpeed);
-	  void setMinSpeedRaw(unsigned long integerSpeed);
-	  void setFullSpeedRaw(unsigned long integerSpeed);
-	  void setAccRaw(unsigned long integerSpeed);
-	  void setDecRaw(unsigned long integerSpeed);
-    void setOCThreshold(byte threshold);
+    void setMaxSpeedRaw(unsigned int32_t integerSpeed);
+	  void setMinSpeedRaw(unsigned int32_t integerSpeed);
+	  void setFullSpeedRaw(unsigned int32_t integerSpeed);
+	  void setAccRaw(unsigned int32_t integerSpeed);
+	  void setDecRaw(unsigned int32_t integerSpeed);
+    void setOCThreshold(uint8_t threshold);
     void setPWMFreq(int divisor, int multiplier);
     void setSlewRate(int slewRate);
     void setOCShutdown(int OCShutdown);
     void setVoltageComp(int vsCompMode);
     void setSwitchMode(int switchMode);
     void setOscMode(int oscillatorMode);
-    void setAccKVAL(byte kvalInput);
-    void setDecKVAL(byte kvalInput);
-    void setRunKVAL(byte kvalInput);
-    void setHoldKVAL(byte kvalInput);
+    void setAccKVAL(uint8_t kvalInput);
+    void setDecKVAL(uint8_t kvalInput);
+    void setRunKVAL(uint8_t kvalInput);
+    void setHoldKVAL(uint8_t kvalInput);
 
-    boolean getLoSpdOpt();
+    bool getLoSpdOpt();
     // getSyncPin
-    byte getStepMode();
+    uint8_t getStepMode();
     float getSpeed();
     float getMaxSpeed();
     float getMinSpeed();
     float getFullSpeed();
     float getAcc();
     float getDec();
-    unsigned long getMaxSpeedRaw();
-    unsigned long getMinSpeedRaw();
-    unsigned long getFullSpeedRaw();
-    unsigned long getAccRaw();
-    unsigned long getDecRaw();
-    byte getOCThreshold();
+    unsigned int32_t getMaxSpeedRaw();
+    unsigned int32_t getMinSpeedRaw();
+    unsigned int32_t getFullSpeedRaw();
+    unsigned int32_t getAccRaw();
+    unsigned int32_t getDecRaw();
+    uint8_t getOCThreshold();
     int getPWMFreqDivisor();
     int getPWMFreqMultiplier();
     int getSlewRate();
@@ -77,28 +76,28 @@ class AutoDriver
     int getVoltageComp();
     int getSwitchMode();
     int getOscMode();
-    byte getAccKVAL();
-    byte getDecKVAL();
-    byte getRunKVAL();
-    byte getHoldKVAL();
+    uint8_t getAccKVAL();
+    uint8_t getDecKVAL();
+    uint8_t getRunKVAL();
+    uint8_t getHoldKVAL();
     
     // ...and now, operational commands.
-    long getPos();
+    int32_t getPos();
     unsigned int getElPos();
-    long getMark();
-    void run(byte dir, float stepsPerSec);
-    void runRaw(byte dir, unsigned long integerSpeed);
-    void stepClock(byte dir);
-    void move(byte dir, unsigned long numSteps);
-    void goTo(long pos);
-    void goToDir(byte dir, long pos);
-    void goUntil(byte action, byte dir, float stepsPerSec);
-    void goUntilRaw(byte action, byte dir, unsigned long integerSpeed);
-    void releaseSw(byte action, byte dir);
+    int32_t getMark();
+    void run(uint8_t dir, float stepsPerSec);
+    void runRaw(uint8_t dir, unsigned int32_t integerSpeed);
+    void stepClock(uint8_t dir);
+    void move(uint8_t dir, unsigned int32_t numSteps);
+    void goTo(int32_t pos);
+    void goToDir(uint8_t dir, int32_t pos);
+    void goUntil(uint8_t action, uint8_t dir, float stepsPerSec);
+    void goUntilRaw(uint8_t action, uint8_t dir, unsigned int32_t integerSpeed);
+    void releaseSw(uint8_t action, uint8_t dir);
     void goHome();
     void goMark();
-    void setMark(long newMark);
-    void setPos(long newPos);
+    void setMark(int32_t newMark);
+    void setPos(int32_t newPos);
     void setElPos(unsigned int newElPos);
     void resetPos();
     void resetDev();
@@ -109,27 +108,27 @@ class AutoDriver
     
     
   private:
-    byte SPIXfer(byte data);
-    long xferParam(unsigned long value, byte bitLen);
-    long paramHandler(byte param, unsigned long value);
+    uint8_t SPIXfer(uint8_t data);
+    int32_t xferParam(unsigned int32_t value, uint8_t bitLen);
+    int32_t paramHandler(uint8_t param, unsigned int32_t value);
     
     // Support functions for converting from user units to L6470 units
-    unsigned long accCalc(float stepsPerSecPerSec);
-    unsigned long decCalc(float stepsPerSecPerSec);
-    unsigned long minSpdCalc(float stepsPerSec);
-    unsigned long maxSpdCalc(float stepsPerSec);
-    unsigned long FSCalc(float stepsPerSec);
-    unsigned long intSpdCalc(float stepsPerSec);
-    unsigned long spdCalc(float stepsPerSec);
+    unsigned int32_t accCalc(float stepsPerSecPerSec);
+    unsigned int32_t decCalc(float stepsPerSecPerSec);
+    unsigned int32_t minSpdCalc(float stepsPerSec);
+    unsigned int32_t maxSpdCalc(float stepsPerSec);
+    unsigned int32_t FSCalc(float stepsPerSec);
+    unsigned int32_t intSpdCalc(float stepsPerSec);
+    unsigned int32_t spdCalc(float stepsPerSec);
 
     // Support functions for converting from L6470 to user units
-    float accParse(unsigned long stepsPerSecPerSec);
-    float decParse(unsigned long stepsPerSecPerSec);
-    float minSpdParse(unsigned long stepsPerSec);
-    float maxSpdParse(unsigned long stepsPerSec);
-    float FSParse(unsigned long stepsPerSec);
-    float intSpdParse(unsigned long stepsPerSec);
-    float spdParse(unsigned long stepsPerSec);
+    float accParse(unsigned int32_t stepsPerSecPerSec);
+    float decParse(unsigned int32_t stepsPerSecPerSec);
+    float minSpdParse(unsigned int32_t stepsPerSec);
+    float maxSpdParse(unsigned int32_t stepsPerSec);
+    float FSParse(unsigned int32_t stepsPerSec);
+    float intSpdParse(unsigned int32_t stepsPerSec);
+    float spdParse(unsigned int32_t stepsPerSec);
  
     int _CSPin;
     int _resetPin;

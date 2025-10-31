@@ -8,7 +8,6 @@
 class AutoDriver {
 public:
   ConcreteTiming time;
-  ConcreteSPI SPI;
   ConcreteGPIO gpio;
   // Constructors. We'll ALWAYS want a CS pin and a reset pin, but we may
   //  not want a busy pin. By using two constructors, we make it easy to

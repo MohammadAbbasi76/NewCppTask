@@ -10,7 +10,6 @@ AutoDriver::AutoDriver(int position, int CSPin, int resetPin, int busyPin) {
   _resetPin = resetPin;
   _busyPin = busyPin;
   _numBoards++;
-  _SPI = &SPI;
 }
 
 AutoDriver::AutoDriver(int position, int CSPin, int resetPin) {
@@ -19,7 +18,6 @@ AutoDriver::AutoDriver(int position, int CSPin, int resetPin) {
   _resetPin = resetPin;
   _busyPin = -1;
   _numBoards++;
-  _SPI = &SPI;
 }
 
 void AutoDriver::SPIPortConnect(ConcreteSPI *SPIPort) { _SPI = SPIPort; }

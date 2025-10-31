@@ -32,7 +32,6 @@ public:
   virtual void releaseChipSelect(uint8_t pin) = 0;
   virtual void endTransaction(void) = 0;
   virtual void beginTransaction(void) = 0;
-  
 };
 
 // Timing Abstract Class
@@ -43,4 +42,20 @@ public:
   virtual void delayMicroseconds(uint32_t microseconds) = 0;
   virtual uint32_t millis() = 0;
   virtual uint32_t micros() = 0;
+};
+
+// PWM Abstract Class
+class PWM_Abstract {
+public:
+  virtual ~PWM_Abstract() = default;
+  virtual void begin(uint8_t pin, uint32_t frequency = 1000) = 0;
+  virtual void setPWM(uint8_t pin, uint8_t value) = 0;        // 0-255
+  virtual void setPWMPercent(uint8_t pin, float percent) = 0; // 0-100%
+  virtual void setPWMFrequency(uint8_t pin, uint32_t frequency) = 0;
+};
+// DAC Abstract Class
+class DAC_Abstract {
+public:
+  virtual ~DAC_Abstract() = default;
+  virtual void begin(uint8_t pin, uint32_t frequency = 1000) = 0;
 };

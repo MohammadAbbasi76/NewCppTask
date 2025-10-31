@@ -17,13 +17,6 @@ public:
   }
 };
 
-// SPI  setting Abstract Class
-class SPISettings_Abstract {
-public:
-  virtual ~SPISettings_Abstract() = default;
-  virtual SPISettings_Abstract(uint32_t clock, uint8_t bitOrder,
-                               uint8_t dataMode) = 0;
-};
 // SPI Abstract Class
 class SPI_Abstract {
 public:

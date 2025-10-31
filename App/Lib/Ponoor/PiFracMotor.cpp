@@ -1,11 +1,10 @@
 #include "PiFracMotor.h"
-#include "Abstract/prephral_config.hpp"
-#define nBUSY A5 // motor controller BUSY="0"
-#define nFLAG A4 // motor issue if "0"
-#define nSTBY 5  // put motor in standby (reset)="0"
+#include <cstddef>
+#define nBUSY -1 // motor controller BUSY="0"
+#define nFLAG -1 // motor issue if "0"
+#define nSTBY -1  // put motor in standby (reset)="0"
 
-static PiFracMotor *motorDriver = NULL; // motor driver
-
+PiFracMotor *motorDriver = NULL; // motor driver
 /// <summary>
 /// Constructor
 /// </summary>
@@ -45,7 +44,7 @@ bool PiFracMotor::isBusy(int csPin) {
 /// the motor controller chip. Set to low in order to enable the motor
 /// controller chip.</param> <param name="dir"></param> <param
 /// name="numSteps"></param>
-void PiFracMotor::moveMotor(int csPin, uint8_t dir, unsigned int32_t numSteps) {
+void PiFracMotor::moveMotor(int csPin, uint8_t dir, uint32_t numSteps) {
   Initialize(csPin);
   motorDriver->move(dir, numSteps);
 }
@@ -76,9 +75,9 @@ void PiFracMotor::Initialize(int csPin) {
 /// controller chip.</param> <param name="maxSpeed">The maximum speed of the
 /// motor in steps per second.</param> <param name="fullSpeed">The full (steady
 /// state) speed of the motor in steps per second.</param>
-void PiFracMotor::configureSpeed(int csPin, float maxSpeed, float fullSpeed) {
+void PiFracMotor::configureSpeed(int csPin, float maxSpeed, float fullSpeed, ConcreteSPI *SPI) {
   Initialize(csPin);
-  motorDriver->SPIPortConnect(&SPI);    // connect the SPI to the motor driver
+  motorDriver->SPIPortConnect(SPI);    // connect the SPI to the motor driver
   motorDriver->setMaxSpeed(maxSpeed);   // 10000 steps/s max
   motorDriver->setFullSpeed(fullSpeed); // microstep below 10000 steps/s
 }
@@ -91,9 +90,9 @@ void PiFracMotor::configureSpeed(int csPin, float maxSpeed, float fullSpeed) {
 /// controller chip.</param> <param name="acc">Acceleration (in steps per second
 /// per second).</param> <param name="dec">Deceleration (int steps per second
 /// per second).</param>
-void PiFracMotor::configureAcc(int csPin, float acc, float dec) {
+void PiFracMotor::configureAcc(int csPin, float acc, float dec, ConcreteSPI *SPI) {
   Initialize(csPin);
-  motorDriver->SPIPortConnect(&SPI); // connect the SPI to the motor driver
+  motorDriver->SPIPortConnect(SPI); // connect the SPI to the motor driver
   motorDriver->setAcc(acc);
   motorDriver->setDec(dec);
 }
@@ -122,9 +121,9 @@ void PiFracMotor::configureStepMode(int csPin, int stepMode) {
 /// <param name="csPin">Chip select pin. Pin on the micro that is used to select
 /// the motor controller chip. Set to low in order to enable the motor
 /// controller chip.</param>
-void PiFracMotor::configureDefault(int csPin) {
+void PiFracMotor::configureDefault(int csPin, ConcreteSPI *SPI) {
   Initialize(csPin);
-  motorDriver->SPIPortConnect(&SPI); // connect the SPI to the motor driver
+  motorDriver->SPIPortConnect(SPI); // connect the SPI to the motor driver
   motorDriver->configSyncPin(BUSY_PIN, 0); // BUSY pin low during operations;
   motorDriver->configStepMode(STEP_FS);    // 0 microsteps per step
   motorDriver->setMaxSpeed(1000);          // 1000 steps/s max

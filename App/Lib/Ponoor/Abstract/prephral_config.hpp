@@ -27,36 +27,6 @@ public:
 
 
 
-// Concrete implementation of SPISettings_Abstract
-class ConcreteSPISettings : public SPISettings_Abstract {
-private:
-    uint32_t clockFrequency_;
-    uint8_t bitOrder_;
-    uint8_t dataMode_;
-
-public:
-    // Constructor with parameters (like Arduino SPISettings)
-    ConcreteSPISettings(uint32_t clock, uint8_t bitOrder, uint8_t dataMode)
-        : clockFrequency_(clock), bitOrder_(bitOrder), dataMode_(dataMode) {
-    }
-
-    // Destructor
-    ~ConcreteSPISettings() override = default;
-
-    // Implement abstract interface (empty body if not needed)
-    void init(uint32_t clock, uint8_t bitOrder, uint8_t dataMode) override {
-        clockFrequency_ = clock;
-        bitOrder_ = bitOrder;
-        dataMode_ = dataMode;
-    }
-
-    // Optional getters
-    uint32_t getClockFrequency() const { return clockFrequency_; }
-    uint8_t getBitOrder() const { return bitOrder_; }
-    uint8_t getDataMode() const { return dataMode_; }
-};
-
-
 class ConcreteSPI : public SPI_Abstract {
 private:
     uint8_t csPin;

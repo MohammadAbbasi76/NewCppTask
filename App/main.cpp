@@ -6,7 +6,8 @@
 
 int main()
 {
-  PiFracMotor::configureDefault(10);
+  ConcreteSPI SPI;
+  PiFracMotor::configureDefault(10,&SPI);
 
    return 0;
 }

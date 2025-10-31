@@ -9,31 +9,40 @@
 // Multiply desired steps/s/s by .137438 to get an appropriate value for this
 // register. This is a 12-bit value, so we need to make sure the value is at or
 // below 0xFFF.
-unsigned int32_t AutoDriver::accCalc(float stepsPerSecPerSec) {
+uint32_t AutoDriver::accCalc(float stepsPerSecPerSec) {
   float temp = stepsPerSecPerSec * 0.06871948F;
-  if ((unsigned int32_t)int32_t(temp) >= 0x00000FFF)
+  if ((uint32_t)int32_t(temp) >= 0x00000FFF)
     return 0x00000FFE;
   else
-    return (unsigned int32_t)int32_t(temp);
+    return (uint32_t)int32_t(temp);
 }
 
-float AutoDriver::accParse(unsigned int32_t stepsPerSecPerSec) {
+float AutoDriver::accParse(uint32_t stepsPerSecPerSec) {
   return (float)(stepsPerSecPerSec & 0x00000FFF) * 15.258789F;
 }
 
 // The calculation for DEC is the same as for ACC. Value is 0x08A on boot.
 // This is a 12-bit value, so we need to make sure the value is at or below
 // 0xFFF.
-unsigned int32_t AutoDriver::decCalc(float stepsPerSecPerSec) {
+uint32_t AutoDriver::decCalc(float stepsPerSecPerSec) {
   float temp = stepsPerSecPerSec * 0.06871948F;
-  if ((unsigned int32_t)int32_t(temp) > 0x00000FFF)
+  if ((uint32_t)int32_t(temp) > 0x00000FFF)
     return 0x00000FFF;
   else
-    return (unsigned int32_t)int32_t(temp);
+    return (uint32_t)int32_t(temp);
 }
 
-float AutoDriver::decParse(unsigned int32_t stepsPerSecPerSec) {
+float AutoDriver::decParse(uint32_t stepsPerSecPerSec) {
   return (float)(stepsPerSecPerSec & 0x00000FFF) * 15.258789F;
+}
+
+double ceil(double x) {
+    int int_part = (int)x;  // Truncate decimal part
+    if (x == (double)int_part)
+        return x;
+    if (x > 0)
+        return (double)(int_part + 1);
+    return (double)int_part;
 }
 
 // The value in the MAX_SPD register is [(steps/s)*(tick)]/(2^-18) where tick is
@@ -41,15 +50,15 @@ float AutoDriver::decParse(unsigned int32_t stepsPerSecPerSec) {
 // Multiply desired steps/s by .065536 to get an appropriate value for this
 // register This is a 10-bit value, so we need to make sure it remains at or
 // below 0x3FF
-unsigned int32_t AutoDriver::maxSpdCalc(float stepsPerSec) {
-  unsigned int32_t temp = ceil(stepsPerSec * 0.065536F);
+uint32_t AutoDriver::maxSpdCalc(float stepsPerSec) {
+  uint32_t temp = ceil(stepsPerSec * 0.065536F);
   if (temp > 0x000003FF)
     return 0x000003FF;
   else
     return temp;
 }
 
-float AutoDriver::maxSpdParse(unsigned int32_t stepsPerSec) {
+float AutoDriver::maxSpdParse(uint32_t stepsPerSec) {
   return (float)(stepsPerSec & 0x000003FF) * 15.258789F;
 }
 
@@ -58,15 +67,15 @@ float AutoDriver::maxSpdParse(unsigned int32_t stepsPerSec) {
 // Multiply desired steps/s by 4.1943 to get an appropriate value for this
 // register This is a 12-bit value, so we need to make sure the value is at or
 // below 0xFFF.
-unsigned int32_t AutoDriver::minSpdCalc(float stepsPerSec) {
+uint32_t AutoDriver::minSpdCalc(float stepsPerSec) {
   float temp = stepsPerSec * 4.194304F;
-  if ((unsigned int32_t)int32_t(temp) > 0x00000FFF)
+  if ((uint32_t)int32_t(temp) > 0x00000FFF)
     return 0x00000FFF;
   else
-    return (unsigned int32_t)int32_t(temp);
+    return (uint32_t)int32_t(temp);
 }
 
-float AutoDriver::minSpdParse(unsigned int32_t stepsPerSec) {
+float AutoDriver::minSpdParse(uint32_t stepsPerSec) {
   return (float)((float)(stepsPerSec & 0x00000FFF) * 0.23841858F);
 }
 
@@ -76,15 +85,15 @@ float AutoDriver::minSpdParse(unsigned int32_t stepsPerSec) {
 // Multiply desired steps/s by .065536 and subtract .5 to get an appropriate
 // value for this register This is a 10-bit value, so we need to make sure the
 // value is at or below 0x3FF.
-unsigned int32_t AutoDriver::FSCalc(float stepsPerSec) {
+uint32_t AutoDriver::FSCalc(float stepsPerSec) {
   float temp = (stepsPerSec * 0.065536F) - 0.5F;
-  if ((unsigned int32_t)int32_t(temp) > 0x000003FF)
+  if ((uint32_t)int32_t(temp) > 0x000003FF)
     return 0x000003FF;
   else
-    return (unsigned int32_t)int32_t(temp);
+    return (uint32_t)int32_t(temp);
 }
 
-float AutoDriver::FSParse(unsigned int32_t stepsPerSec) {
+float AutoDriver::FSParse(uint32_t stepsPerSec) {
   return (((float)(stepsPerSec & 0x000003FF)) + 0.5F) * 15.258789F;
 }
 
@@ -93,15 +102,15 @@ float AutoDriver::FSParse(unsigned int32_t stepsPerSec) {
 // Multiply desired steps/s by 4.1943 to get an appropriate value for this
 // register This is a 14-bit value, so we need to make sure the value is at or
 // below 0x3FFF.
-unsigned int32_t AutoDriver::intSpdCalc(float stepsPerSec) {
+uint32_t AutoDriver::intSpdCalc(float stepsPerSec) {
   float temp = stepsPerSec * 16.777216F;
-  if ((unsigned int32_t)int32_t(temp) > 0x00003FFF)
+  if ((uint32_t)int32_t(temp) > 0x00003FFF)
     return 0x00003FFF;
   else
-    return (unsigned int32_t)int32_t(temp);
+    return (uint32_t)int32_t(temp);
 }
 
-float AutoDriver::intSpdParse(unsigned int32_t stepsPerSec) {
+float AutoDriver::intSpdParse(uint32_t stepsPerSec) {
   return (float)(stepsPerSec & 0x00003FFF) * 0.059604645F;
 }
 
@@ -111,22 +120,22 @@ float AutoDriver::intSpdParse(unsigned int32_t stepsPerSec) {
 // Multiply desired steps/s by 67.106 to get an appropriate value for this
 // register This is a 20-bit value, so we need to make sure the value is at or
 // below 0xFFFFF.
-unsigned int32_t AutoDriver::spdCalc(float stepsPerSec) {
-  unsigned int32_t temp = stepsPerSec * 67.108864F;
+uint32_t AutoDriver::spdCalc(float stepsPerSec) {
+  uint32_t temp = stepsPerSec * 67.108864F;
   if (temp > 0x000FFFFF)
     return 0x000FFFFF;
   else
     return temp;
 }
 
-float AutoDriver::spdParse(unsigned int32_t stepsPerSec) {
+float AutoDriver::spdParse(uint32_t stepsPerSec) {
   return (float)(stepsPerSec & 0x000FFFFF) * 0.014901161F;
 }
 
 // Much of the functionality between "get parameter" and "set parameter" is
 //  very similar, so we deal with that by putting all of it in one function
 //  here to save memory space and simplify the program.
-int32_t AutoDriver::paramHandler(uint8_t param, unsigned int32_t value) {
+int32_t AutoDriver::paramHandler(uint8_t param, uint32_t value) {
   int32_t retVal = 0; // This is a temp for the value to return.
 
   // This switch structure handles the appropriate action for each register.
@@ -319,14 +328,14 @@ int32_t AutoDriver::paramHandler(uint8_t param, unsigned int32_t value) {
 // Generalization of the subsections of the register read/write functionality.
 //  We want the end user to just write the value without worrying about length,
 //  so we pass a bit length parameter from the calling function.
-int32_t AutoDriver::xferParam(unsigned int32_t value, uint8_t bitLen) {
+int32_t AutoDriver::xferParam(uint32_t value, uint8_t bitLen) {
   uint8_t byteLen = bitLen / 8; // How many BYTES do we have?
   if (bitLen % 8 > 0)
     byteLen++; // Make sure not to lose any partial uint8_t values.
 
   uint8_t temp;
 
-  unsigned int32_t retVal = 0;
+  uint32_t retVal = 0;
 #if defined(ARDUINO_ARCH_SAMD)
   __disable_irq();
 #endif
@@ -338,7 +347,7 @@ int32_t AutoDriver::xferParam(unsigned int32_t value, uint8_t bitLen) {
 #if defined(ARDUINO_ARCH_SAMD)
   __enable_irq();
 #endif
-  unsigned int32_t mask = 0xffffffff >> (32 - bitLen);
+  uint32_t mask = 0xffffffff >> (32 - bitLen);
   return retVal & mask;
 }
 
@@ -350,7 +359,7 @@ uint8_t AutoDriver::SPIXfer(uint8_t data) {
     //   dataPacket[i] = 0;
   }
   // dataPacket[_position] = data;
-  gpio.gpio.digitalWrite(_CSPin, LOW);
+  gpio.digitalWrite(_CSPin, LOW);
   time.delayMicroseconds(1);
   _SPI->beginTransaction();
   uint8_t rxData = _SPI->transfer(data);

@@ -16,7 +16,7 @@ void AutoDriver::configSyncPin(uint8_t pinFunc, uint8_t syncSteps)
   
   // Now we should be able to send that uint8_t right back to the dSPIN- it
   //  won't corrupt the other bits, and the changes are made.
-  setParam(STEP_MODE, (unsigned int32_t)syncPinConfig);
+  setParam(STEP_MODE, (uint32_t)syncPinConfig);
 }
 
 // The dSPIN chip supports microstepping for a smoother ride. This function
@@ -34,7 +34,7 @@ void AutoDriver::configStepMode(uint8_t stepMode)
   stepModeConfig |= (stepMode&0x07);
   
   // Now push the change to the chip.
-  setParam(STEP_MODE, (unsigned int32_t)stepModeConfig);
+  setParam(STEP_MODE, (uint32_t)stepModeConfig);
 }
 
 uint8_t AutoDriver::getStepMode() {
@@ -46,11 +46,11 @@ void AutoDriver::setMaxSpeed(float stepsPerSecond)
 {
   // We need to convert the floating point stepsPerSecond into a value that
   //  the dSPIN can understand. Fortunately, we have a function to do that.
-  unsigned int32_t integerSpeed = maxSpdCalc(stepsPerSecond);
+  uint32_t integerSpeed = maxSpdCalc(stepsPerSecond);
   
   setMaxSpeedRaw(integerSpeed);
 }
-void AutoDriver::setMaxSpeedRaw(unsigned int32_t integerSpeed)
+void AutoDriver::setMaxSpeedRaw(uint32_t integerSpeed)
 {
 	// Now, we can set that paramter.
 	setParam(MAX_SPEED, integerSpeed);
@@ -66,7 +66,7 @@ float AutoDriver::getMaxSpeed()
 {
   return maxSpdParse(getParam(MAX_SPEED));
 }
-unsigned int32_t AutoDriver::getMaxSpeedRaw()
+uint32_t AutoDriver::getMaxSpeedRaw()
 {
 	return getParam(MAX_SPEED);
 }
@@ -78,13 +78,13 @@ void AutoDriver::setMinSpeed(float stepsPerSecond)
 {
   // We need to convert the floating point stepsPerSecond into a value that
   //  the dSPIN can understand. Fortunately, we have a function to do that.
-  unsigned int32_t integerSpeed = minSpdCalc(stepsPerSecond);
+  uint32_t integerSpeed = minSpdCalc(stepsPerSecond);
   setMinSpeedRaw(integerSpeed);
 }
-void AutoDriver::setMinSpeedRaw(unsigned int32_t integerSpeed)
+void AutoDriver::setMinSpeedRaw(uint32_t integerSpeed)
 {
   // MIN_SPEED also contains the LSPD_OPT flag, so we need to protect that.
-  unsigned int32_t temp = getParam(MIN_SPEED) & 0x00001000;
+  uint32_t temp = getParam(MIN_SPEED) & 0x00001000;
   
   // Now, we can set that paramter.
   setParam(MIN_SPEED, integerSpeed | temp);
@@ -94,7 +94,7 @@ float AutoDriver::getMinSpeed()
 {
   return minSpdParse(getParam(MIN_SPEED));
 }
-unsigned int32_t AutoDriver::getMinSpeedRaw()
+uint32_t AutoDriver::getMinSpeedRaw()
 {
 	return getParam(MIN_SPEED);
 }
@@ -104,10 +104,10 @@ unsigned int32_t AutoDriver::getMinSpeedRaw()
 //  mode. 
 void AutoDriver::setFullSpeed(float stepsPerSecond)
 {
-  unsigned int32_t integerSpeed = FSCalc(stepsPerSecond);
+  uint32_t integerSpeed = FSCalc(stepsPerSecond);
   setFullSpeedRaw(integerSpeed);
 }
-void AutoDriver::setFullSpeedRaw(unsigned int32_t integerSpeed)
+void AutoDriver::setFullSpeedRaw(uint32_t integerSpeed)
 {
   setParam(FS_SPD, integerSpeed);
 }
@@ -116,7 +116,7 @@ float AutoDriver::getFullSpeed()
 {
   return FSParse(getParam(FS_SPD));
 }
-unsigned int32_t AutoDriver::getFullSpeedRaw()
+uint32_t AutoDriver::getFullSpeedRaw()
 {
 	return getParam(FS_SPD);
 }
@@ -125,10 +125,10 @@ unsigned int32_t AutoDriver::getFullSpeedRaw()
 //  disable acceleration, putting the chip in "infinite" acceleration mode.
 void AutoDriver::setAcc(float stepsPerSecondPerSecond)
 {
-  unsigned int32_t integerAcc = accCalc(stepsPerSecondPerSecond);
+  uint32_t integerAcc = accCalc(stepsPerSecondPerSecond);
   setAccRaw(integerAcc);
 }
-void AutoDriver::setAccRaw(unsigned int32_t integerAcc)
+void AutoDriver::setAccRaw(uint32_t integerAcc)
 {
 	setParam(ACC, integerAcc);
 }
@@ -137,7 +137,7 @@ float AutoDriver::getAcc()
 {
   return accParse(getParam(ACC));
 }
-unsigned int32_t AutoDriver::getAccRaw()
+uint32_t AutoDriver::getAccRaw()
 {
 	return getParam(ACC);
 }
@@ -145,10 +145,10 @@ unsigned int32_t AutoDriver::getAccRaw()
 // Same rules as setAcc().
 void AutoDriver::setDec(float stepsPerSecondPerSecond)
 {
-  unsigned int32_t integerDec = decCalc(stepsPerSecondPerSecond);
+  uint32_t integerDec = decCalc(stepsPerSecondPerSecond);
   setDecRaw(integerDec);
 }
-void AutoDriver::setDecRaw(unsigned int32_t integerDec)
+void AutoDriver::setDecRaw(uint32_t integerDec)
 {
 	setParam(DECEL, integerDec);
 }
@@ -157,7 +157,7 @@ float AutoDriver::getDec()
 {
   return accParse(getParam(DECEL));
 }
-unsigned int32_t AutoDriver::getDecRaw()
+uint32_t AutoDriver::getDecRaw()
 {
 	return getParam(DECEL);
 }
@@ -182,7 +182,7 @@ uint8_t AutoDriver::getOCThreshold()
 //  multiplied/divided here is, but it is clearly *not* the actual clock freq.
 void AutoDriver::setPWMFreq(int divisor, int multiplier)
 {
-  unsigned int32_t configVal = getParam(CONFIG);
+  uint32_t configVal = getParam(CONFIG);
   
   // The divisor is set by config 15:13, so mask 0xE000 to clear them.
   configVal &= ~(0xE000);
@@ -206,7 +206,7 @@ int AutoDriver::getPWMFreqMultiplier()
 // Slew rate of the output in V/us. Can be 180, 290, or 530.
 void AutoDriver::setSlewRate(int slewRate)
 {
-  unsigned int32_t configVal = getParam(CONFIG);
+  uint32_t configVal = getParam(CONFIG);
   
   // These bits live in CONFIG 9:8, so the mask is 0x0300.
   configVal &= ~(0x0300);
@@ -223,7 +223,7 @@ int AutoDriver::getSlewRate()
 // Single bit- do we shutdown the drivers on overcurrent or not?
 void AutoDriver::setOCShutdown(int OCShutdown)
 {
-  unsigned int32_t configVal = getParam(CONFIG);
+  uint32_t configVal = getParam(CONFIG);
   // This bit is CONFIG 7, mask is 0x0080
   configVal &= ~(0x0080);
   //Now, OR in the masked incoming value.
@@ -240,7 +240,7 @@ int AutoDriver::getOCShutdown()
 //  p34 of the datasheet.
 void AutoDriver::setVoltageComp(int vsCompMode)
 {
-  unsigned int32_t configVal = getParam(CONFIG);
+  uint32_t configVal = getParam(CONFIG);
   // This bit is CONFIG 5, mask is 0x0020
   configVal &= ~(0x0020);
   //Now, OR in the masked incoming value.
@@ -257,7 +257,7 @@ int AutoDriver::getVoltageComp()
 //  This bit allows you to select what it does.
 void AutoDriver::setSwitchMode(int switchMode)
 {
-  unsigned int32_t configVal = getParam(CONFIG);
+  uint32_t configVal = getParam(CONFIG);
   // This bit is CONFIG 4, mask is 0x0010
   configVal &= ~(0x0010);
   //Now, OR in the masked incoming value.
@@ -278,7 +278,7 @@ int AutoDriver::getSwitchMode()
 //  math used to figure out steps per second and stuff like that.
 void AutoDriver::setOscMode(int oscillatorMode)
 {
-  unsigned int32_t configVal = getParam(CONFIG);
+  uint32_t configVal = getParam(CONFIG);
   // These bits are CONFIG 3:0, mask is 0x000F
   configVal &= ~(0x000F);
   //Now, OR in the masked incoming value.
@@ -341,7 +341,7 @@ uint8_t AutoDriver::getHoldKVAL()
 //  the driving sine wave prettier than normal until MIN_SPEED is reached.
 void AutoDriver::setLoSpdOpt(bool enable)
 {
-  unsigned int32_t temp = getParam(MIN_SPEED);
+  uint32_t temp = getParam(MIN_SPEED);
   if (enable) temp |= 0x00001000; // Set the LSPD_OPT bit
   else        temp &= 0xffffefff; // Clear the LSPD_OPT bit
   setParam(MIN_SPEED, temp);

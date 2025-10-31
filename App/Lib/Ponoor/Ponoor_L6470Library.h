@@ -4,6 +4,7 @@
 #include "Abstract//prephral_asbtract.hpp"
 #include "Abstract/prephral_config.hpp"
 #include "Ponoor_L6470Constants.h"
+#include <cstdint>
 class AutoDriver {
 public:
   ConcreteTiming time;
@@ -26,7 +27,7 @@ public:
   // Some users will want to do things other than what we explicitly provide
   //  nice functions for; give them unrestricted access to the parameter
   //  registers.
-  void setParam(uint8_t param, unsigned int32_t value);
+  void setParam(uint8_t param, uint32_t value);
   int32_t getParam(uint8_t param);
 
   // Lots of people just want Commands That Work; let's provide them!
@@ -39,11 +40,11 @@ public:
   void setFullSpeed(float stepsPerSecond);
   void setAcc(float stepsPerSecondPerSecond);
   void setDec(float stepsPerSecondPerSecond);
-  void setMaxSpeedRaw(unsigned int32_t integerSpeed);
-  void setMinSpeedRaw(unsigned int32_t integerSpeed);
-  void setFullSpeedRaw(unsigned int32_t integerSpeed);
-  void setAccRaw(unsigned int32_t integerSpeed);
-  void setDecRaw(unsigned int32_t integerSpeed);
+  void setMaxSpeedRaw(uint32_t integerSpeed);
+  void setMinSpeedRaw(uint32_t integerSpeed);
+  void setFullSpeedRaw(uint32_t integerSpeed);
+  void setAccRaw(uint32_t integerSpeed);
+  void setDecRaw(uint32_t integerSpeed);
   void setOCThreshold(uint8_t threshold);
   void setPWMFreq(int divisor, int multiplier);
   void setSlewRate(int slewRate);
@@ -65,11 +66,11 @@ public:
   float getFullSpeed();
   float getAcc();
   float getDec();
-  unsigned int32_t getMaxSpeedRaw();
-  unsigned int32_t getMinSpeedRaw();
-  unsigned int32_t getFullSpeedRaw();
-  unsigned int32_t getAccRaw();
-  unsigned int32_t getDecRaw();
+  uint32_t getMaxSpeedRaw();
+  uint32_t getMinSpeedRaw();
+  uint32_t getFullSpeedRaw();
+  uint32_t getAccRaw();
+  uint32_t getDecRaw();
   uint8_t getOCThreshold();
   int getPWMFreqDivisor();
   int getPWMFreqMultiplier();
@@ -88,13 +89,13 @@ public:
   unsigned int getElPos();
   int32_t getMark();
   void run(uint8_t dir, float stepsPerSec);
-  void runRaw(uint8_t dir, unsigned int32_t integerSpeed);
+  void runRaw(uint8_t dir, uint32_t integerSpeed);
   void stepClock(uint8_t dir);
-  void move(uint8_t dir, unsigned int32_t numSteps);
+  void move(uint8_t dir, uint32_t numSteps);
   void goTo(int32_t pos);
   void goToDir(uint8_t dir, int32_t pos);
   void goUntil(uint8_t action, uint8_t dir, float stepsPerSec);
-  void goUntilRaw(uint8_t action, uint8_t dir, unsigned int32_t integerSpeed);
+  void goUntilRaw(uint8_t action, uint8_t dir, uint32_t integerSpeed);
   void releaseSw(uint8_t action, uint8_t dir);
   void goHome();
   void goMark();
@@ -110,26 +111,26 @@ public:
 
 private:
   uint8_t SPIXfer(uint8_t data);
-  int32_t xferParam(unsigned int32_t value, uint8_t bitLen);
-  int32_t paramHandler(uint8_t param, unsigned int32_t value);
+  int32_t xferParam(uint32_t value, uint8_t bitLen);
+  int32_t paramHandler(uint8_t param, uint32_t value);
 
   // Support functions for converting from user units to L6470 units
-  unsigned int32_t accCalc(float stepsPerSecPerSec);
-  unsigned int32_t decCalc(float stepsPerSecPerSec);
-  unsigned int32_t minSpdCalc(float stepsPerSec);
-  unsigned int32_t maxSpdCalc(float stepsPerSec);
-  unsigned int32_t FSCalc(float stepsPerSec);
-  unsigned int32_t intSpdCalc(float stepsPerSec);
-  unsigned int32_t spdCalc(float stepsPerSec);
+  uint32_t accCalc(float stepsPerSecPerSec);
+  uint32_t decCalc(float stepsPerSecPerSec);
+  uint32_t minSpdCalc(float stepsPerSec);
+  uint32_t maxSpdCalc(float stepsPerSec);
+  uint32_t FSCalc(float stepsPerSec);
+  uint32_t intSpdCalc(float stepsPerSec);
+  uint32_t spdCalc(float stepsPerSec);
 
   // Support functions for converting from L6470 to user units
-  float accParse(unsigned int32_t stepsPerSecPerSec);
-  float decParse(unsigned int32_t stepsPerSecPerSec);
-  float minSpdParse(unsigned int32_t stepsPerSec);
-  float maxSpdParse(unsigned int32_t stepsPerSec);
-  float FSParse(unsigned int32_t stepsPerSec);
-  float intSpdParse(unsigned int32_t stepsPerSec);
-  float spdParse(unsigned int32_t stepsPerSec);
+  float accParse(uint32_t stepsPerSecPerSec);
+  float decParse(uint32_t stepsPerSecPerSec);
+  float minSpdParse(uint32_t stepsPerSec);
+  float maxSpdParse(uint32_t stepsPerSec);
+  float FSParse(uint32_t stepsPerSec);
+  float intSpdParse(uint32_t stepsPerSec);
+  float spdParse(uint32_t stepsPerSec);
 
   int _CSPin;
   int _resetPin;

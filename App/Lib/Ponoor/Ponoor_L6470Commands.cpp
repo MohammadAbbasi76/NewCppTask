@@ -5,7 +5,7 @@
 
 // Realize the "set parameter" function, to write to the various registers in
 //  the dSPIN chip.
-void AutoDriver::setParam(uint8_t param, unsigned int32_t value) 
+void AutoDriver::setParam(uint8_t param, uint32_t value) 
 {
   param |= CMD_SET_PARAM;
   SPIXfer((uint8_t)param);
@@ -63,10 +63,10 @@ int32_t AutoDriver::getMark()
 //  appropriate integer values for this function.
 void AutoDriver::run(uint8_t dir, float stepsPerSec)
 {
-  unsigned int32_t integerSpeed = spdCalc(stepsPerSec);
+  uint32_t integerSpeed = spdCalc(stepsPerSec);
   runRaw(dir, integerSpeed);
 }
-void AutoDriver::runRaw(uint8_t dir, unsigned int32_t integerSpeed) {
+void AutoDriver::runRaw(uint8_t dir, uint32_t integerSpeed) {
   SPIXfer(CMD_RUN | dir);
   if (integerSpeed > 0xFFFFF) integerSpeed = 0xFFFFF;
   
@@ -100,7 +100,7 @@ void AutoDriver::stepClock(uint8_t dir)
 //  direction imposed by dir (FWD or REV constants may be used). The motor
 //  will accelerate according the acceleration and deceleration curves, and
 //  will run at MAX_SPEED. Stepping mode will adhere to FS_SPD value, as well.
-void AutoDriver::move(uint8_t dir, unsigned int32_t numSteps)
+void AutoDriver::move(uint8_t dir, uint32_t numSteps)
 {
   SPIXfer(CMD_MOVE | dir);
   if (numSteps > 0x3FFFFF) numSteps = 0x3FFFFF;
@@ -148,10 +148,10 @@ void AutoDriver::goToDir(uint8_t dir, int32_t pos)
 //  either RESET to 0 or COPY-ed into the MARK register.
 void AutoDriver::goUntil(uint8_t action, uint8_t dir, float stepsPerSec)
 {
-  unsigned int32_t integerSpeed = spdCalc(stepsPerSec);
+  uint32_t integerSpeed = spdCalc(stepsPerSec);
   goUntilRaw(action, dir, integerSpeed);
 }
-void AutoDriver::goUntilRaw(uint8_t action, uint8_t dir, unsigned int32_t integerSpeed) {
+void AutoDriver::goUntilRaw(uint8_t action, uint8_t dir, uint32_t integerSpeed) {
   action = (action > 0) << 3;
   SPIXfer(CMD_GO_UNTIL | action | dir);
   if (integerSpeed > 0x3FFFFF) integerSpeed = 0x3FFFFF;
